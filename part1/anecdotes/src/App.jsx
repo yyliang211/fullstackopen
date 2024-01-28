@@ -19,6 +19,7 @@ const App = () => {
     copy[selected] += 1;
     setVotes(copy);
   };
+  console.log("anecdotes:", anecdotes);
 
   return (
     <>
