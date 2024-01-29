@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 import { useEffect, useState } from "react";
 import personsService from "./services/persons";
+import { Notification } from "./components/Notification";
 
 function Filter({ filter, handleFilterChange }) {
   return (
@@ -51,6 +52,8 @@ const App = () => {
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
   const [filter, setFilter] = useState("");
+  const emptyNotification = { message: null, className: null };
+  const [notification, setNotification] = useState(emptyNotification);
 
   useEffect(() => {
     personsService.getAll().then((initialPersons) => {
@@ -94,8 +97,19 @@ const App = () => {
                 person.id !== returnedPerson.id ? person : returnedPerson
               )
             );
+          })
+          .catch(() => {
+            setNotification({
+              message: `Information of ${person.name} has already been removed from server`,
+              className: "error",
+            });
+            setTimeout(() => {
+              setNotification(emptyNotification);
+            }, 3000);
+            setPersons(persons.filter((p) => p.id !== person.id));
           });
       }
+      return;
     }
     const personObject = {
       name: newName,
@@ -104,7 +118,13 @@ const App = () => {
     personsService.create(personObject).then((returnedPerson) => {
       setPersons(persons.concat(returnedPerson));
       setNewName("");
+      setNewNumber("");
     });
+
+    setNotification({ message: `Added ${newName}`, className: "success" });
+    setTimeout(() => {
+      setNotification(emptyNotification);
+    }, 3000);
   }
 
   const removePerson = (person) => {
@@ -117,6 +137,10 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification
+        message={notification.message}
+        className={notification.className}
+      />
       <Filter filter={filter} handleFilterChange={handleFilterChange} />
 
       <h3>add a new</h3>
