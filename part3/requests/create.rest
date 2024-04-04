@@ -7,3 +7,15 @@ content-type: application/json
 {
     "content": "test"
 }
+
+###
+DELETE http://localhost:3001/api/notes/660e02bf0b17c20836c032bb
+
+###
+PUT http://localhost:3001/api/notes/660e02a60b17c20836c032b7
+content-type: application/json
+
+{
+    "content": "repalace",
+    "important": "false"
+}
