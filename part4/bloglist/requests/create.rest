@@ -1,0 +1,12 @@
+GET http://localhost:3001/api/blogs/
+
+###
+POST http://localhost:3001/api/blogs/ HTTP/1.1
+content-type: application/json
+
+{
+    "title": "first post",
+    "author": "me",
+    "url": "https://fakeurl.com",
+    "likes": 5
+}
