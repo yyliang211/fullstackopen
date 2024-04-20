@@ -4,14 +4,14 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
-    "dev": "nodemon index.js",
+    "start": "NODE_ENV=production node index.js",
+    "dev": "NODE_ENV=development nodemon index.js",
     "build:ui": "rm -rf dist && cd ../notes/ && npm run build && cp -r dist ../part3",
     "deploy": "fly deploy",
     "deploy:full": "npm run build:ui && npm run deploy",
     "logs:prod": "fly logs",
     "lint": "eslint .",
-    "test": "node --test"
+    "test": "NODE_ENV=test jest --verbose --runInBand"
   },
   "author": "Yingyang Liang",
   "license": "MIT",
@@ -25,6 +25,10 @@
     "@flydotio/dockerfile": "^0.5.4",
     "@stylistic/eslint-plugin-js": "^1.7.0",
     "eslint": "^8.57.0",
+    "jest": "^29.7.0",
     "nodemon": "^3.0.3"
+  },
+  "jest": {
+    "testEnvironment": "node"
   }
 }
