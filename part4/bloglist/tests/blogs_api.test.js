@@ -5,6 +5,13 @@ const app = require("../app");
 const api = supertest(app);
 const Blog = require("../models/blog");
 
+const mockBlog = {
+  title: "everything",
+  author: "cupper",
+  url: "http://cupper.com",
+  likes: 1,
+};
+
 beforeEach(async () => {
   await Blog.deleteMany({});
 
@@ -35,23 +42,41 @@ test("blogs should have a id property", async () => {
   }
 });
 
-test("POST /api/blogs", async () => {
-  const newBlog = {
-    title: "everything",
-    author: "cupper",
-    url: "http://cupper.com",
-    likes: 1,
-  };
+describe("POST /api/blogs", () => {
+  test("creates a blog", async () => {
+    const response = await api
+      .post("/api/blogs")
+      .send(mockBlog)
+      .expect(201)
+      .expect("Content-Type", /application\/json/);
 
-  const response = await api
-    .post("/api/blogs")
-    .send(newBlog)
-    .expect(201)
-    .expect("Content-Type", /application\/json/);
+    const resultBlogs = await helper.blogsInDb();
+    expect(resultBlogs).toHaveLength(helper.initialBlogs.length + 1);
 
-  const resultBlogs = await helper.blogsInDb();
-  expect(resultBlogs).toHaveLength(helper.initialBlogs.length + 1);
+    const titles = resultBlogs.map((b) => b.title);
+    expect(titles).toContainEqual("everything");
+  });
 
-  const titles = resultBlogs.map((b) => b.title);
-  expect(titles).toContainEqual("everything");
+  test("like property defaults to 0 when creating a blog", async () => {
+    const { likes, ...newBlog } = mockBlog;
+
+    const response = await api
+      .post("/api/blogs")
+      .send(newBlog)
+      .expect(201)
+      .expect("Content-Type", /application\/json/);
+
+    const resultBlog = await Blog.find({ title: newBlog.title });
+    expect(resultBlog[0].likes).toBe(0);
+  });
+
+  test("returns 400 if title is missing", async () => {
+    const { title, ...newBlog } = mockBlog;
+    const response = await api.post("/api/blogs").send(newBlog).expect(400);
+  });
+
+  test("returns 400 if url is missing", async () => {
+    const { url, ...newBlog } = mockBlog;
+    const response = await api.post("/api/blogs").send(newBlog).expect(400);
+  });
 });
