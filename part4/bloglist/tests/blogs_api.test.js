@@ -1,10 +1,10 @@
+const supertest = require("supertest");
 const mongoose = require("mongoose");
 const helper = require("./test_helper");
-const supertest = require("supertest");
 const app = require("../app");
 const api = supertest(app);
-const Blog = require("../models/blog");
 
+const Blog = require("../models/blog");
 const mockBlog = {
   title: "everything",
   author: "cupper",
@@ -14,32 +14,31 @@ const mockBlog = {
 
 beforeEach(async () => {
   await Blog.deleteMany({});
-
-  const blogObjects = helper.initialBlogs.map((blog) => new Blog(blog));
-  const promiseArray = blogObjects.map((blog) => blog.save());
-  await Promise.all(promiseArray);
+  await Blog.insertMany(helper.initialBlogs);
 });
 
 afterAll(async () => {
   await mongoose.connection.close();
 });
 
-test("GET /api/blogs", async () => {
-  const response = await api
-    .get("/api/blogs")
-    .expect(200)
-    .expect("Content-Type", /application\/json/);
-  expect(response.body).toHaveLength(helper.initialBlogs.length);
-});
+describe("GET /api/blogs", () => {
+  test("returns all blogs in json format", async () => {
+    const response = await api
+      .get("/api/blogs")
+      .expect(200)
+      .expect("Content-Type", /application\/json/);
+    expect(response.body).toHaveLength(helper.initialBlogs.length);
+  });
 
-test("blogs should have a id property", async () => {
-  const response = await api
-    .get("/api/blogs")
-    .expect(200)
-    .expect("Content-Type", /application\/json/);
-  for (blog of response.body) {
-    expect(blog.id).toBeDefined();
-  }
+  test("returns blogs where the id property is defined", async () => {
+    const response = await api
+      .get("/api/blogs")
+      .expect(200)
+      .expect("Content-Type", /application\/json/);
+    for (blog of response.body) {
+      expect(blog.id).toBeDefined();
+    }
+  });
 });
 
 describe("POST /api/blogs", () => {
@@ -57,7 +56,7 @@ describe("POST /api/blogs", () => {
     expect(titles).toContainEqual("everything");
   });
 
-  test("like property defaults to 0 when creating a blog", async () => {
+  test("creates a blog with 0 likes if likes is not defined", async () => {
     const { likes, ...newBlog } = mockBlog;
 
     const response = await api
@@ -78,5 +77,46 @@ describe("POST /api/blogs", () => {
   test("returns 400 if url is missing", async () => {
     const { url, ...newBlog } = mockBlog;
     const response = await api.post("/api/blogs").send(newBlog).expect(400);
+  });
+});
+
+describe("DELETE /api/notes/:id", () => {
+  test("succeeds with status code 204 if id is valid", async () => {
+    const startingBlogs = await helper.blogsInDb();
+    const blogToDelete = startingBlogs[0];
+
+    await api.delete(`/api/blogs/${blogToDelete.id}`).expect(204);
+
+    const resultBlogs = await helper.blogsInDb();
+    expect(resultBlogs).toHaveLength(helper.initialBlogs.length - 1);
+
+    const titles = resultBlogs.map((b) => b.title);
+    expect(titles).not.toContain(blogToDelete.title);
+  });
+});
+
+describe("PUT /api/notes/:id", () => {
+  test("successfully updates a blog", async () => {
+    const startingBlogs = await helper.blogsInDb();
+    const blogToUpdate = startingBlogs[0];
+
+    const newBlog = {
+      title: "this is new",
+      author: "iii",
+      likes: 3,
+    };
+
+    await api
+      .put(`/api/blogs/${blogToUpdate.id}`)
+      .send(newBlog)
+      .expect(200)
+      .expect("Content-Type", /application\/json/);
+
+    const resultBlogs = await helper.blogsInDb();
+    for (blogs of resultBlogs) {
+      if (blog.title === newBlog.title) {
+        expect(blog.likes).toEqual(newBlog.likes);
+      }
+    }
   });
 });

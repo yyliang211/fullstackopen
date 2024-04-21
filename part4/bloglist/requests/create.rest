@@ -10,3 +10,13 @@ content-type: application/json
     "url": "https://fakeurl.com",
     "likes": 5
 }
+
+###
+PUT http://localhost:3001/api/blogs/661c79e6f1a3f98e434cb326 HTTP/1.1
+content-type: application/json
+
+{
+    "title": "updated post",
+    "author": "me again",
+    "likes": 2
+}
