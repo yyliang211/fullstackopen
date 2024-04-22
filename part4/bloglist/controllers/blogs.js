@@ -1,5 +1,6 @@
 const jwt = require("jsonwebtoken");
 const blogRouter = require("express").Router();
+const middleware = require("../utils/middleware");
 const Blog = require("../models/blog");
 const User = require("../models/user");
 
@@ -9,7 +10,7 @@ blogRouter.get("/", async (request, response) => {
   response.json(blogs);
 });
 
-blogRouter.post("/", async (request, response) => {
+blogRouter.post("/", middleware.userExtractor, async (request, response) => {
   const body = request.body;
   const decodedToken = jwt.verify(request.token, process.env.SECRET);
   const userId = decodedToken.id;
@@ -34,10 +35,27 @@ blogRouter.post("/", async (request, response) => {
   response.status(201).json(savedBlog);
 });
 
-blogRouter.delete("/:id", async (request, response) => {
-  await Blog.findByIdAndDelete(request.params.id);
-  response.status(204).end();
-});
+blogRouter.delete(
+  "/:id",
+  middleware.userExtractor,
+  async (request, response) => {
+    const userId = request.user;
+
+    const blogId = request.params.id;
+    const blog = await Blog.findById(blogId);
+    if (blog == null) {
+      return response.status(204).end();
+    }
+    if (blog.user.toString() !== userId) {
+      return response
+        .status(401)
+        .json({ erorr: "must be author of the blog to delete" });
+    }
+
+    await Blog.findByIdAndDelete(request.params.id);
+    response.status(204).end();
+  }
+);
 
 blogRouter.put("/:id", async (request, response) => {
   const body = request.body;
