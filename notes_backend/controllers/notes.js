@@ -45,9 +45,6 @@ notesRouter.post("/", async (request, response) => {
   user.notes = user.notes.concat(savedNote._id);
   await user.save();
 
-  user.notes = user.notes.concat(savedNote._id);
-  await user.save();
-
   response.status(201).json(savedNote);
 });
 
