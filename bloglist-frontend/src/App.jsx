@@ -78,8 +78,14 @@ const App = () => {
       setUser(user);
       setUsername("");
       setPassword("");
-    } catch (exception) {
-      console.log("Wrong credentials");
+    } catch (e) {
+      setNotification({
+        message: `wrong username or password`,
+        className: "error",
+      });
+      setTimeout(() => {
+        setNotification(emptyNotification);
+      }, 3000);
     }
   };
 
@@ -132,6 +138,10 @@ const App = () => {
     return (
       <div>
         <h2>Log in to application</h2>
+        <Notification
+          message={notification.message}
+          className={notification.className}
+        />
         {loginForm()}
       </div>
     );
