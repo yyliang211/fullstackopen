@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import Blog from "./components/Blog";
+import { Notification } from "./components/Notification";
 import blogService from "./services/blogs";
 import loginService from "./services/login";
 
@@ -13,6 +14,8 @@ const App = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [user, setUser] = useState(null);
+  const emptyNotification = { message: null, className: null };
+  const [notification, setNotification] = useState(emptyNotification);
 
   useEffect(() => {
     blogService.getAll().then((blogs) => setBlogs(blogs));
@@ -40,6 +43,13 @@ const App = () => {
       setNewAuthor("");
       setNewUrl("");
     });
+    setNotification({
+      message: `a new blog ${newTitle} by ${newAuthor} added`,
+      className: "success",
+    });
+    setTimeout(() => {
+      setNotification(emptyNotification);
+    }, 3000);
   };
 
   const handleTitleChange = (event) => {
@@ -130,6 +140,10 @@ const App = () => {
   return (
     <div>
       <h2>blogs</h2>
+      <Notification
+        message={notification.message}
+        className={notification.className}
+      />
 
       <div>
         <p>
