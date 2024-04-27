@@ -16,12 +16,12 @@ const Blog = ({ blog, currentUser, handleLike, removeBlog }) => {
   };
 
   return (
-    <div style={blogStyle}>
-      <div>
+    <div style={blogStyle} className="blog">
+      <div className="standardContent">
         {blog.title} {blog.author}
         <button onClick={() => setExpanded(!expanded)}>{buttonLabel}</button>
       </div>
-      <div style={{ display: display }}>
+      <div style={{ display: display }} className="detailedContent">
         <div>{blog.url}</div>
         <div>
           likes {blog.likes} <button onClick={handleLike}>like</button>

@@ -8,9 +8,6 @@ import Togglable from "./components/Togglable";
 
 const App = () => {
   const [blogs, setBlogs] = useState([]);
-  const [newTitle, setNewTitle] = useState("");
-  const [newAuthor, setNewAuthor] = useState("");
-  const [newUrl, setNewUrl] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [user, setUser] = useState(null);
@@ -31,22 +28,13 @@ const App = () => {
     }
   }, []);
 
-  const addBlog = (event) => {
-    event.preventDefault();
-    const blogObject = {
-      title: newTitle,
-      author: newAuthor,
-      url: newUrl,
-    };
+  const addBlog = (blogObject) => {
     blogFormRef.current.toggleVisibility();
-    blogService.create(blogObject).then((returnedBlog) => {
-      setBlogs(blogs.concat(returnedBlog));
-      setNewTitle("");
-      setNewAuthor("");
-      setNewUrl("");
+    blogService.create(blogObject).then(() => {
+      blogService.getAll().then((blogs) => setBlogs(blogs));
     });
     setNotification({
-      message: `a new blog ${newTitle} by ${newAuthor} added`,
+      message: `a new blog ${blogObject.title} by ${blogObject.author} added`,
       className: "success",
     });
     setTimeout(() => {
@@ -59,7 +47,7 @@ const App = () => {
     const changedBlog = { ...blog, likes: blog.likes + 1 };
     blogService
       .update(id, changedBlog)
-      .then((returnedBlog) => {
+      .then(() => {
         blogService.getAll().then((blogs) => setBlogs(blogs));
       })
       .catch(() => {
@@ -79,19 +67,6 @@ const App = () => {
       blogService.remove(blog.id);
       setBlogs(blogs.filter((b) => b.id !== blog.id));
     }
-  };
-
-  const handleTitleChange = (event) => {
-    console.log(event.target.value);
-    setNewTitle(event.target.value);
-  };
-  const handleAuthorChange = (event) => {
-    console.log(event.target.value);
-    setNewAuthor(event.target.value);
-  };
-  const handleUrlChange = (event) => {
-    console.log(event.target.value);
-    setNewUrl(event.target.value);
   };
 
   const handleLogin = async (event) => {
@@ -174,15 +149,7 @@ const App = () => {
           {user.name} logged-in <button onClick={handleLogout}>logout</button>
         </p>
         <Togglable buttonLabel="new blog" ref={blogFormRef}>
-          <BlogForm
-            onSubmit={addBlog}
-            title={newTitle}
-            handleTitleChange={handleTitleChange}
-            author={newAuthor}
-            handleAuthorChange={handleAuthorChange}
-            url={newUrl}
-            handleUrlChange={handleUrlChange}
-          />
+          <BlogForm createBlog={addBlog} />
         </Togglable>
       </div>
 
