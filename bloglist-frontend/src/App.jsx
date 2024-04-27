@@ -64,7 +64,7 @@ const App = () => {
       })
       .catch(() => {
         setNotification({
-          message: `Unable to like blog`,
+          message: "Unable to like blog",
           className: "error",
         });
         setTimeout(() => {
@@ -109,7 +109,7 @@ const App = () => {
       setPassword("");
     } catch (e) {
       setNotification({
-        message: `wrong username or password`,
+        message: "wrong username or password",
         className: "error",
       });
       setTimeout(() => {
