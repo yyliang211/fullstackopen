@@ -54,6 +54,26 @@ const App = () => {
     }, 3000);
   };
 
+  const handleLike = (id) => {
+    const blog = blogs.find((blog) => blog.id === id);
+    const changedBlog = { ...blog, likes: blog.likes + 1 };
+    blogService
+      .update(id, changedBlog)
+      .then((returnedBlog) => {
+        blogService.getAll().then((blogs) => setBlogs(blogs));
+      })
+      .catch(() => {
+        setNotification({
+          message: `Unable to like blog`,
+          className: "error",
+        });
+        setTimeout(() => {
+          setNotification(emptyNotification);
+        }, 5000);
+        setBlogs(blogs.filter((b) => b.id !== id));
+      });
+  };
+
   const handleTitleChange = (event) => {
     console.log(event.target.value);
     setNewTitle(event.target.value);
@@ -159,9 +179,15 @@ const App = () => {
         </Togglable>
       </div>
 
-      {blogs.map((blog) => (
-        <Blog key={blog.id} blog={blog} />
-      ))}
+      {blogs
+        .sort((a, b) => b.likes - a.likes)
+        .map((blog) => (
+          <Blog
+            key={blog.id}
+            blog={blog}
+            handleLike={() => handleLike(blog.id)}
+          />
+        ))}
     </div>
   );
 };
