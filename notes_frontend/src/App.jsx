@@ -51,16 +51,10 @@ const App = () => {
 
   const notesToShow = showAll ? notes : notes.filter((note) => note.important);
 
-  const addNote = (event) => {
-    event.preventDefault();
-    const noteObject = {
-      content: newNote,
-      important: Math.random() > 0.5,
-    };
+  const addNote = (noteObject) => {
     noteFormRef.current.toggleVisibility();
     noteService.create(noteObject).then((returnedNote) => {
       setNotes(notes.concat(returnedNote));
-      setNewNote("");
     });
   };
 
@@ -150,11 +144,7 @@ const App = () => {
             {user.name} logged-in <button onClick={handleLogout}>logout</button>
           </p>
           <Togglable buttonLabel="new note" ref={noteFormRef}>
-            <NoteForm
-              onSubmit={addNote}
-              value={newNote}
-              handleChange={handleNoteChange}
-            />
+            <NoteForm createNote={addNote} />
           </Togglable>
         </div>
       )}
