@@ -1,9 +1,10 @@
 import { useState } from "react";
 
-const Blog = ({ blog, handleLike }) => {
+const Blog = ({ blog, currentUser, handleLike, removeBlog }) => {
   const [expanded, setExpanded] = useState(false);
   const display = expanded ? "" : "none";
   const buttonLabel = expanded ? "hide" : "view";
+  const showDeleteButton = blog.user.name === currentUser.name ? "" : "none";
 
   const blogStyle = {
     paddingTop: 10,
@@ -25,6 +26,9 @@ const Blog = ({ blog, handleLike }) => {
           likes {blog.likes} <button onClick={handleLike}>like</button>
         </div>
         <div>{blog.user.name}</div>
+        <button onClick={removeBlog} style={{ display: showDeleteButton }}>
+          remove
+        </button>
       </div>
     </div>
   );

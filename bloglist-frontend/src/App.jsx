@@ -74,6 +74,13 @@ const App = () => {
       });
   };
 
+  const removeBlog = (blog) => {
+    if (window.confirm(`Remove blog ${blog.name} by ${blog.author}`)) {
+      blogService.remove(blog.id);
+      setBlogs(blogs.filter((b) => b.id !== blog.id));
+    }
+  };
+
   const handleTitleChange = (event) => {
     console.log(event.target.value);
     setNewTitle(event.target.value);
@@ -186,6 +193,8 @@ const App = () => {
             key={blog.id}
             blog={blog}
             handleLike={() => handleLike(blog.id)}
+            removeBlog={() => removeBlog(blog)}
+            currentUser={user}
           />
         ))}
     </div>
