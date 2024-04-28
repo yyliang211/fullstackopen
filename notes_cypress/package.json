@@ -1,0 +1,17 @@
+{
+  "name": "notes_cypress",
+  "version": "1.0.0",
+  "description": "E2E tests for the note app",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "cypress:open": "cypress open",
+    "test:e2e": "cypress run"
+  },
+  "author": "yyliang211",
+  "license": "ISC",
+  "devDependencies": {
+    "cypress": "^13.8.1",
+    "eslint-plugin-cypress": "^3.0.2"
+  }
+}

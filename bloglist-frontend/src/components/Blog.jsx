@@ -19,7 +19,9 @@ const Blog = ({ blog, currentUser, handleLike, removeBlog }) => {
     <div style={blogStyle} className="blog">
       <div className="standardContent">
         {blog.title} {blog.author}
-        <button onClick={() => setExpanded(!expanded)}>{buttonLabel}</button>
+        <button id="viewButton" onClick={() => setExpanded(!expanded)}>
+          {buttonLabel}
+        </button>
       </div>
       <div style={{ display: display }} className="detailedContent">
         <div>{blog.url}</div>
