@@ -1,11 +1,14 @@
 import ReactDOM from "react-dom/client";
-import { App, store } from "./App";
+import { createStore } from "redux";
+import { Provider } from "react-redux";
 
-const root = ReactDOM.createRoot(document.getElementById("root"));
+import App from "./App";
+import noteReducer from "./reducers/noteReducer";
 
-const renderApp = () => {
-  root.render(<App />);
-};
+const store = createStore(noteReducer);
 
-renderApp();
-store.subscribe(renderApp);
+const root = ReactDOM.createRoot(document.getElementById("root")).render(
+  <Provider store={store}>
+    <App />
+  </Provider>
+);

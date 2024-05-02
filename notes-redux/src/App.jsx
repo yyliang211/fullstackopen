@@ -1,31 +1,13 @@
-import { createStore } from "redux";
+import NewNote from "./components/NewNote";
+import Notes from "./components/Notes";
 
-const counterReducer = (state = 0, action) => {
-  switch (action.type) {
-    case "INCREMENT":
-      return state + 1;
-    case "DECREMENT":
-      return state - 1;
-    case "ZERO":
-      return 0;
-    default:
-      return state;
-  }
-};
-
-export const store = createStore(counterReducer);
-
-export function App() {
+const App = () => {
   return (
     <div>
-      <div>{store.getState()}</div>
-      <button onClick={() => store.dispatch({ type: "INCREMENT" })}>
-        plus
-      </button>
-      <button onClick={() => store.dispatch({ type: "DECREMENT" })}>
-        minus
-      </button>
-      <button onClick={() => store.dispatch({ type: "ZERO" })}>zero</button>
+      <NewNote />
+      <Notes />
     </div>
   );
-}
+};
+
+export default App;
