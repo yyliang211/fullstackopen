@@ -1,4 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
+import PropTypes from "prop-types";
+
 import { vote } from "../reducers/anecdoteReducer";
 
 const Anecdote = ({ anecdote, handleVote }) => {
@@ -13,9 +15,19 @@ const Anecdote = ({ anecdote, handleVote }) => {
   );
 };
 
+Anecdote.propTypes = {
+  anecdote: PropTypes.object.isRequired,
+  handleVote: PropTypes.func.isRequired,
+};
+
 const AnecdoteList = () => {
   const dispatch = useDispatch();
-  const anecdotes = useSelector((state) => state);
+  const anecdotes = useSelector(({ filter, anecdotes }) => {
+    if (filter === "ALL") {
+      return anecdotes;
+    }
+    return anecdotes.filter((a) => a.content.includes(filter));
+  });
   return anecdotes
     .sort((a, b) => b.votes - a.votes)
     .map((anecdote) => (
