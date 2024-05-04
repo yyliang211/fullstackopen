@@ -2,7 +2,7 @@
   "anecdotes": [
     {
       "id": "1",
-      "votes": 8,
+      "votes": 12,
       "content": "If it hurts, do it more often",
       "vote": 1
     },
