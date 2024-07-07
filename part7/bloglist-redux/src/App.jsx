@@ -4,25 +4,27 @@ import Blog from "./components/Blog";
 import BlogForm from "./components/BlogForm";
 import { Notification } from "./components/Notification";
 import Togglable from "./components/Togglable";
+import { createBlog, getBlogs } from "./reducers/blogReducer";
 import { setNotification } from "./reducers/notificationReducer";
 import blogService from "./services/blogs";
 import loginService from "./services/login";
 
 const App = () => {
   const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getBlogs());
+  }, [dispatch]);
 
-  const [blogs, setBlogs] = useState([]);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [user, setUser] = useState(null);
   const notification = useSelector(({ notification }) => {
     return notification;
   });
+  const blogs = useSelector(({ blogs }) => {
+    return blogs;
+  });
   const blogFormRef = useRef();
-
-  useEffect(() => {
-    blogService.getAll().then((blogs) => setBlogs(blogs));
-  }, []);
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem("loggedBlogappUser");
@@ -35,9 +37,7 @@ const App = () => {
 
   const addBlog = (blogObject) => {
     blogFormRef.current.toggleVisibility();
-    blogService.create(blogObject).then(() => {
-      blogService.getAll().then((blogs) => setBlogs(blogs));
-    });
+    dispatch(createBlog(blogObject));
     dispatch(
       setNotification(
         `a new blog ${blogObject.title} by ${blogObject.author} added`,
@@ -53,18 +53,18 @@ const App = () => {
     blogService
       .update(id, changedBlog)
       .then(() => {
-        blogService.getAll().then((blogs) => setBlogs(blogs));
+        dispatch(getBlogs());
       })
       .catch(() => {
         dispatch(setNotification("Unable to like blog", "error", 5));
-        setBlogs(blogs.filter((b) => b.id !== id));
+        dispatch(getBlogs());
       });
   };
 
-  const removeBlog = (blog) => {
+  const removeBlog = async (blog) => {
     if (window.confirm(`Remove blog ${blog.name} by ${blog.author}`)) {
-      blogService.remove(blog.id);
-      setBlogs(blogs.filter((b) => b.id !== blog.id));
+      await blogService.remove(blog.id);
+      dispatch(getBlogs());
     }
   };
 
@@ -150,7 +150,7 @@ const App = () => {
         </Togglable>
       </div>
 
-      {blogs
+      {[...blogs]
         .sort((a, b) => b.likes - a.likes)
         .map((blog) => (
           <Blog
