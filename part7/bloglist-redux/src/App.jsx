@@ -6,6 +6,7 @@ import { Notification } from "./components/Notification";
 import Togglable from "./components/Togglable";
 import { createBlog, getBlogs } from "./reducers/blogReducer";
 import { setNotification } from "./reducers/notificationReducer";
+import { setUser } from "./reducers/userReducer";
 import blogService from "./services/blogs";
 import loginService from "./services/login";
 
@@ -13,11 +14,21 @@ const App = () => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getBlogs());
+
+    // const loggedUserJSON = window.localStorage.getItem("loggedBlogappUser");
+    // if (loggedUserJSON) {
+    //   const user = JSON.parse(loggedUserJSON);
+    //   dispatch(setUser(user));
+    //   blogService.setToken(user.token);
+    // }
   }, [dispatch]);
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [user, setUser] = useState(null);
+  const user = useSelector(({ user }) => {
+    return user;
+  });
+  console.log(user);
   const notification = useSelector(({ notification }) => {
     return notification;
   });
@@ -25,15 +36,6 @@ const App = () => {
     return blogs;
   });
   const blogFormRef = useRef();
-
-  useEffect(() => {
-    const loggedUserJSON = window.localStorage.getItem("loggedBlogappUser");
-    if (loggedUserJSON) {
-      const user = JSON.parse(loggedUserJSON);
-      setUser(user);
-      blogService.setToken(user.token);
-    }
-  }, []);
 
   const addBlog = (blogObject) => {
     blogFormRef.current.toggleVisibility();
@@ -77,8 +79,7 @@ const App = () => {
         password,
       });
       blogService.setToken(user.token);
-      window.localStorage.setItem("loggedBlogappUser", JSON.stringify(user));
-      setUser(user);
+      dispatch(setUser(user));
       setUsername("");
       setPassword("");
     } catch (e) {
@@ -87,8 +88,7 @@ const App = () => {
   };
 
   const handleLogout = () => {
-    window.localStorage.removeItem("loggedBlogappUser");
-    setUser(null);
+    dispatch(setUser(null));
     return;
   };
 
