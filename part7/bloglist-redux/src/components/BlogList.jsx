@@ -16,6 +16,7 @@ export function BlogList() {
   const user = useSelector(({ user }) => {
     return user;
   });
+  const blogFormRef = useRef();
 
   const handleLike = (id) => {
     const blog = blogs.find((blog) => blog.id === id);
@@ -31,15 +32,6 @@ export function BlogList() {
       });
   };
 
-  const removeBlog = async (blog) => {
-    if (window.confirm(`Remove blog ${blog.name} by ${blog.author}`)) {
-      await blogService.remove(blog.id);
-      dispatch(getBlogs());
-    }
-  };
-
-  const blogFormRef = useRef();
-
   const addBlog = (blogObject) => {
     blogFormRef.current.toggleVisibility();
     dispatch(createBlog(blogObject));
@@ -50,6 +42,13 @@ export function BlogList() {
         3,
       ),
     );
+  };
+
+  const removeBlog = async (blog) => {
+    if (window.confirm(`Remove blog ${blog.name} by ${blog.author}`)) {
+      await blogService.remove(blog.id);
+      dispatch(getBlogs());
+    }
   };
 
   const handleLogout = () => {

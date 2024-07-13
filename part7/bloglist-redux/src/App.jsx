@@ -4,6 +4,7 @@ import { Route, Routes } from "react-router-dom";
 import { BlogList } from "./components/BlogList";
 import { Menu } from "./components/Menu";
 import { Notification } from "./components/Notification";
+import { Users } from "./components/Users";
 import { getBlogs } from "./reducers/blogReducer";
 import { setNotification } from "./reducers/notificationReducer";
 import { setUser } from "./reducers/userReducer";
@@ -95,7 +96,7 @@ const App = () => {
 
       <Routes>
         <Route path="/" element={<BlogList />} />
-        <Route path="/users" element={<></>} />
+        <Route path="/users" element={<Users />} />
       </Routes>
     </div>
   );
