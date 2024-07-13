@@ -7,6 +7,11 @@ const padding = {
   paddingRight: 5,
 };
 
+const menuStyle = {
+  background: "lightgray",
+  padding: "5px",
+};
+
 export function Menu() {
   const dispatch = useDispatch();
   const user = useSelector(({ user }) => {
@@ -18,7 +23,7 @@ export function Menu() {
   };
 
   return (
-    <div>
+    <div style={menuStyle}>
       <Link to="/" style={padding}>
         blogs
       </Link>
