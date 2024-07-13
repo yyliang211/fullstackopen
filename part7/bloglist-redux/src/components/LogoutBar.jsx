@@ -13,8 +13,8 @@ export function LogoutBar() {
   };
 
   return (
-    <p>
+    <>
       {user.name} logged-in <button onClick={handleLogout}>logout</button>
-    </p>
+    </>
   );
 }

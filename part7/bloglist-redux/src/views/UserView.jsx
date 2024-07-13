@@ -1,7 +1,6 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { useMatch } from "react-router-dom";
-import { LogoutBar } from "../components/LogoutBar";
 
 export function UserView() {
   const match = useMatch("/users/:userId");
@@ -16,7 +15,6 @@ export function UserView() {
 
   return (
     <div>
-      <LogoutBar />
       <h2>{selectedUser.name}</h2>
       <h3>added blogs</h3>
       <ul>

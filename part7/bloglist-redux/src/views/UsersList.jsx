@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { LogoutBar } from "../components/LogoutBar";
 import userService from "../services/users";
 
 export function UsersList() {
@@ -13,7 +12,6 @@ export function UsersList() {
 
   return (
     <>
-      <LogoutBar />
       <h2>Users</h2>
       <table>
         <thead>

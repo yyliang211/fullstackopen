@@ -2,7 +2,6 @@ import { useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import BlogForm from "../components/BlogForm";
-import { LogoutBar } from "../components/LogoutBar";
 import Togglable from "../components/Togglable";
 import { createBlog } from "../reducers/blogReducer";
 import { setNotification } from "../reducers/notificationReducer";
@@ -36,7 +35,6 @@ export function BlogList() {
 
   return (
     <div>
-      <LogoutBar />
       <Togglable buttonLabel="new blog" ref={blogFormRef}>
         <BlogForm createBlog={addBlog} />
       </Togglable>

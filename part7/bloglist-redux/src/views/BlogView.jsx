@@ -1,7 +1,6 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useMatch } from "react-router-dom";
-import { LogoutBar } from "../components/LogoutBar";
 import { getBlogs } from "../reducers/blogReducer";
 import { setNotification } from "../reducers/notificationReducer";
 import blogService from "../services/blogs";
@@ -45,7 +44,6 @@ export function BlogView() {
 
   return (
     <div>
-      <LogoutBar />
       <h2>{blog.title}</h2>
       <a href={blog.url}>{blog.url}</a>
       <div>
