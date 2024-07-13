@@ -1,10 +1,22 @@
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { LogoutBar } from "./LogoutBar";
+import { setLoggedInUser } from "../reducers/userReducer";
+
+const padding = {
+  paddingRight: 5,
+};
 
 export function Menu() {
-  const padding = {
-    paddingRight: 5,
+  const dispatch = useDispatch();
+  const user = useSelector(({ user }) => {
+    return user.loggedInUser;
+  });
+  const handleLogout = () => {
+    dispatch(setLoggedInUser(null));
+    return;
   };
+
   return (
     <div>
       <Link to="/" style={padding}>
@@ -13,7 +25,7 @@ export function Menu() {
       <Link to="/users" style={padding}>
         users
       </Link>
-      <LogoutBar />
+      {user.name} logged-in <button onClick={handleLogout}>logout</button>
     </div>
   );
 }
