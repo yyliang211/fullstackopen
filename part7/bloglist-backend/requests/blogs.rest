@@ -27,6 +27,14 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkb
 }
 
 ###
+POST http://localhost:3001/api/blogs/66257f51b55f59a5375b49ef/comments HTTP/1.1
+content-type: application/json
+
+{
+    "comment": "test 1"
+}
+
+###
 PUT http://localhost:3001/api/blogs/661c79e6f1a3f98e434cb326 HTTP/1.1
 content-type: application/json
 
