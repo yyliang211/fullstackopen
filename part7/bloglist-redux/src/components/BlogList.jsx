@@ -2,10 +2,10 @@ import { useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { createBlog, getBlogs } from "../reducers/blogReducer";
 import { setNotification } from "../reducers/notificationReducer";
-import { setUser } from "../reducers/userReducer";
 import blogService from "../services/blogs";
 import Blog from "./Blog";
 import BlogForm from "./BlogForm";
+import { LogoutBar } from "./LogoutBar";
 import Togglable from "./Togglable";
 
 export function BlogList() {
@@ -51,20 +51,12 @@ export function BlogList() {
     }
   };
 
-  const handleLogout = () => {
-    dispatch(setUser(null));
-    return;
-  };
-
   return (
     <div>
-      <p>
-        {user.name} logged-in <button onClick={handleLogout}>logout</button>
-      </p>
+      <LogoutBar />
       <Togglable buttonLabel="new blog" ref={blogFormRef}>
         <BlogForm createBlog={addBlog} />
       </Togglable>
-
       {[...blogs]
         .sort((a, b) => b.likes - a.likes)
         .map((blog) => (

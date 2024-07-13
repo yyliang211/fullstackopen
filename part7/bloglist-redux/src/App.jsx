@@ -4,10 +4,11 @@ import { Route, Routes } from "react-router-dom";
 import { BlogList } from "./components/BlogList";
 import { Menu } from "./components/Menu";
 import { Notification } from "./components/Notification";
+import { User } from "./components/User";
 import { Users } from "./components/Users";
 import { getBlogs } from "./reducers/blogReducer";
 import { setNotification } from "./reducers/notificationReducer";
-import { setUser } from "./reducers/userReducer";
+import { getUsers, setLoggedInUser } from "./reducers/userReducer";
 import blogService from "./services/blogs";
 import loginService from "./services/login";
 
@@ -15,12 +16,16 @@ const App = () => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getBlogs());
+    dispatch(getUsers());
   }, [dispatch]);
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const user = useSelector(({ user }) => {
-    return user;
+  const loggedInUser = useSelector(({ user }) => {
+    return user.loggedInUser;
+  });
+  const users = useSelector(({ user }) => {
+    return user.users;
   });
   const notification = useSelector(({ notification }) => {
     return notification;
@@ -35,7 +40,7 @@ const App = () => {
         password,
       });
       blogService.setToken(user.token);
-      dispatch(setUser(user));
+      dispatch(setLoggedInUser(user));
       setUsername("");
       setPassword("");
     } catch (e) {
@@ -71,7 +76,7 @@ const App = () => {
     </form>
   );
 
-  if (user === null) {
+  if (loggedInUser === null) {
     return (
       <div>
         <h2>Log in to application</h2>
@@ -97,6 +102,7 @@ const App = () => {
       <Routes>
         <Route path="/" element={<BlogList />} />
         <Route path="/users" element={<Users />} />
+        <Route path="/users/:userId" element={<User />} />
       </Routes>
     </div>
   );
