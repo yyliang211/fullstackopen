@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { LogoutBar } from "../components/LogoutBar";
 import userService from "../services/users";
-import { LogoutBar } from "./LogoutBar";
 
-export function Users() {
+export function UsersList() {
   const [users, setUsers] = useState([]);
   useEffect(() => {
     userService.getAll().then((res) => {

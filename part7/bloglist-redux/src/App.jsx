@@ -1,16 +1,17 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Route, Routes } from "react-router-dom";
-import { BlogList } from "./components/BlogList";
 import { Menu } from "./components/Menu";
 import { Notification } from "./components/Notification";
-import { User } from "./components/User";
-import { Users } from "./components/Users";
 import { getBlogs } from "./reducers/blogReducer";
 import { setNotification } from "./reducers/notificationReducer";
 import { getUsers, setLoggedInUser } from "./reducers/userReducer";
 import blogService from "./services/blogs";
 import loginService from "./services/login";
+import { BlogList } from "./views/BlogList";
+import { BlogView } from "./views/BlogView";
+import { UserView } from "./views/UserView";
+import { UsersList } from "./views/UsersList";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -101,8 +102,9 @@ const App = () => {
 
       <Routes>
         <Route path="/" element={<BlogList />} />
-        <Route path="/users" element={<Users />} />
-        <Route path="/users/:userId" element={<User />} />
+        <Route path="/blogs/:blogId" element={<BlogView />} />
+        <Route path="/users" element={<UsersList />} />
+        <Route path="/users/:userId" element={<UserView />} />
       </Routes>
     </div>
   );
