@@ -1,9 +1,35 @@
-import React from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useMatch } from "react-router-dom";
-import { getBlogs } from "../reducers/blogReducer";
+import { addComment, getBlogs } from "../reducers/blogReducer";
 import { setNotification } from "../reducers/notificationReducer";
 import blogService from "../services/blogs";
+
+function CommentForm({ blog }) {
+  const dispatch = useDispatch();
+  const [comment, setComment] = useState("");
+
+  const handleCommentChange = (event) => {
+    setComment(event.target.value);
+  };
+
+  const updatedBlog = {
+    ...blog,
+    comments: [...blog.comments, comment],
+  };
+  const submitComment = (event) => {
+    event.preventDefault();
+    dispatch(addComment(blog.id, comment));
+    setComment("");
+  };
+
+  return (
+    <form onSubmit={submitComment}>
+      <input id="comment" value={comment} onChange={handleCommentChange} />
+      <button type="submit">add comment</button>
+    </form>
+  );
+}
 
 export function BlogView() {
   const dispatch = useDispatch();
@@ -54,6 +80,7 @@ export function BlogView() {
         remove
       </button>
       <h3>comments</h3>
+      <CommentForm blog={blog} />
       <ul>
         {blog.comments.map((comment, index) => {
           return <li key={index}>{comment}</li>;

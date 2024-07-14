@@ -11,10 +11,16 @@ const blogsSlice = createSlice({
     appendBlog(state, action) {
       state.push(action.payload);
     },
+    setBlog(state, action) {
+      const updatedBlog = action.payload;
+      return state.map((blog) =>
+        blog.id === updatedBlog.id ? updatedBlog : blog,
+      );
+    },
   },
 });
 
-export const { setBlogs, appendBlog } = blogsSlice.actions;
+export const { setBlogs, appendBlog, setBlog } = blogsSlice.actions;
 export const getBlogs = () => {
   return async (dispatch) => {
     const blogs = await blogService.getAll();
@@ -25,6 +31,13 @@ export const createBlog = (blogObject) => {
   return async (dispatch) => {
     const newBlog = await blogService.create(blogObject);
     dispatch(appendBlog(newBlog));
+  };
+};
+export const addComment = (blogId, comment) => {
+  return async (dispatch) => {
+    const updatedBlog = await blogService.addComment(blogId, comment);
+    console.log("updatedBlog", updatedBlog);
+    dispatch(setBlog(updatedBlog));
   };
 };
 
