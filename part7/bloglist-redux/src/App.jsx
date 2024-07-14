@@ -1,8 +1,14 @@
+import {
+  Button,
+  Container,
+  Notification,
+  PasswordInput,
+  TextInput,
+} from "@mantine/core";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Route, Routes } from "react-router-dom";
 import { Menu } from "./components/Menu";
-import { Notification } from "./components/Notification";
 import { getBlogs } from "./reducers/blogReducer";
 import { setNotification } from "./reducers/notificationReducer";
 import { getUsers, setLoggedInUser } from "./reducers/userReducer";
@@ -51,54 +57,58 @@ const App = () => {
 
   const loginForm = () => (
     <form onSubmit={handleLogin}>
-      <div>
-        username
-        <input
-          type="text"
-          value={username}
-          name="Username"
-          onChange={({ target }) => setUsername(target.value)}
-          data-testid="usernameInput"
-        />
-      </div>
-      <div>
-        password
-        <input
-          type="password"
-          value={password}
-          name="Password"
-          onChange={({ target }) => setPassword(target.value)}
-          data-testid="passwordInput"
-        />
-      </div>
-      <button type="submit" id="login-button">
+      <TextInput
+        label="username"
+        type="text"
+        value={username}
+        name="Username"
+        onChange={({ target }) => setUsername(target.value)}
+        data-testid="usernameInput"
+      />
+      <PasswordInput
+        label="password"
+        type="password"
+        value={password}
+        name="Password"
+        onChange={({ target }) => setPassword(target.value)}
+        data-testid="passwordInput"
+      />
+      <Button type="submit" id="login-button">
         login
-      </button>
+      </Button>
     </form>
   );
 
   if (loggedInUser === null) {
     return (
-      <div>
+      <Container size="xs" padd>
         <h2>Log in to application</h2>
-        <Notification
-          message={notification.message}
-          className={notification.className}
-        />
+        {notification.message !== "" && (
+          <Notification
+            title={notification.className}
+            color={notification.className === "error" ? "red" : undefined}
+          >
+            {notification.message}
+          </Notification>
+        )}
         {loginForm()}
-      </div>
+      </Container>
     );
   }
 
   return (
-    <div>
+    <Container>
       <Menu />
 
       <h2>blog app</h2>
-      <Notification
-        message={notification.message}
-        className={notification.className}
-      />
+      {notification.message !== "" && (
+        <Notification
+          title={notification.className}
+          color={notification.className === "error" ? "red" : undefined}
+        >
+          {notification.message}
+        </Notification>
+      )}
 
       <Routes>
         <Route path="/" element={<BlogList />} />
@@ -106,7 +116,7 @@ const App = () => {
         <Route path="/users" element={<UsersList />} />
         <Route path="/users/:userId" element={<UserView />} />
       </Routes>
-    </div>
+    </Container>
   );
 };
 

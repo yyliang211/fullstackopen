@@ -13,7 +13,7 @@ const notificationSlice = createSlice({
       return action.payload;
     },
     remove() {
-      return {};
+      return initialState;
     },
   },
 });

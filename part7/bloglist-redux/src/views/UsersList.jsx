@@ -1,3 +1,4 @@
+import { Table } from "@mantine/core";
 import React from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
@@ -8,24 +9,24 @@ export function UsersList() {
   return (
     <>
       <h2>Users</h2>
-      <table>
-        <thead>
-          <tr>
-            <th scope="col"></th>
-            <th scope="col">blogs created</th>
-          </tr>
-        </thead>
-        <tbody>
+      <Table>
+        <Table.Thead>
+          <Table.Tr>
+            <Table.Th scope="col"></Table.Th>
+            <Table.Th scope="col">blogs created</Table.Th>
+          </Table.Tr>
+        </Table.Thead>
+        <Table.Tbody>
           {users.map((user) => {
             return (
-              <tr key={user.username}>
+              <Table.Tr key={user.username}>
                 <Link to={`${user.id}`}>{user.name}</Link>
-                <td>{user.blogs.length}</td>
-              </tr>
+                <Table.Td>{user.blogs.length}</Table.Td>
+              </Table.Tr>
             );
           })}
-        </tbody>
-      </table>
+        </Table.Tbody>
+      </Table>
     </>
   );
 }

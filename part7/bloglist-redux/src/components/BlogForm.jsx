@@ -1,3 +1,4 @@
+import { Button, TextInput } from "@mantine/core";
 import PropTypes from "prop-types";
 import { useState } from "react";
 
@@ -34,34 +35,28 @@ const BlogForm = ({ createBlog }) => {
       <h2>create new</h2>
 
       <form onSubmit={addBlog}>
-        <div>
-          title:{" "}
-          <input
-            id="title"
-            value={title}
-            onChange={handleTitleChange}
-            placeholder="write title"
-          />
-        </div>
-        <div>
-          author:{" "}
-          <input
-            id="author"
-            value={author}
-            onChange={handleAuthorChange}
-            placeholder="write author"
-          />
-        </div>
-        <div>
-          url:{" "}
-          <input
-            id="url"
-            value={url}
-            onChange={handleUrlChange}
-            placeholder="write url"
-          />
-        </div>
-        <button type="submit">save</button>
+        <TextInput
+          label="title"
+          id="title"
+          value={title}
+          onChange={handleTitleChange}
+          placeholder="write title"
+        />
+        <TextInput
+          label="author"
+          id="author"
+          value={author}
+          onChange={handleAuthorChange}
+          placeholder="write author"
+        />
+        <TextInput
+          label="url"
+          id="url"
+          value={url}
+          onChange={handleUrlChange}
+          placeholder="write url"
+        />
+        <Button type="submit">save</Button>
       </form>
     </div>
   );

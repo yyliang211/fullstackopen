@@ -1,3 +1,4 @@
+import { Button } from "@mantine/core";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
@@ -30,7 +31,10 @@ export function Menu() {
       <Link to="/users" style={padding}>
         users
       </Link>
-      {user.name} logged-in <button onClick={handleLogout}>logout</button>
+      {user.name} logged-in{" "}
+      <Button onClick={handleLogout} color="grape">
+        logout
+      </Button>
     </div>
   );
 }
