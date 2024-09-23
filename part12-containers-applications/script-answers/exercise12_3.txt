@@ -1,0 +1,15 @@
+Script started on Sat Sep 21 22:37:59 2024
+[1m[7m%[27m[1m[0m                                                                                                               [0m[27m[24m[J(base) yingyangliang@Yingyangs-MacBook-Air script-answers % [K[?2004hddocker start -i        ls -acls -aols -anls -atls -aals -ails -anls -aels -arls -a ls -a[?2004l
+CONTAINER ID   IMAGE         COMMAND    CREATED          STATUS                      PORTS     NAMES
+ae0f532bd707   ubuntu        "bash"     13 minutes ago   Exited (0) 41 seconds ago             nostalgic_mirzakhani
+20af63c0d5b2   ubuntu        "bash"     28 minutes ago   Exited (0) 28 minutes ago             sharp_ganguly
+6663886e45e5   hello-world   "/hello"   36 minutes ago   Exited (0) 36 minutes ago             goofy_mclean
+[1m[7m%[27m[1m[0m                                                                                                               [0m[27m[24m[J(base) yingyangliang@Yingyangs-MacBook-Air script-answers % [K[?2004hddocker start -i [7mnostalgic_mirzakhani[27m[20D[27mn[27mo[27ms[27mt[27ma[27ml[27mg[27mi[27mc[27m_[27mm[27mi[27mr[27mz[27ma[27mk[27mh[27ma[27mn[27mi[?2004l
+[?2004h]0;root@ae0f532bd707: /root@ae0f532bd707:/# nano /usr/src/app/index.js
+[?2004l[?2004h[?1049h[22;0;0t[1;15r(B[m[4l[?7h[39;49m[?1h=[?1h=[?25l[39;49m(B[m[H[2J[13;49H(B[0;7m[ Reading... ](B[m[13;55H(B[0;7m 1 line ](B[m[H(B[0;7m  GNU nano 7.2 [32b/usr/src/app/index.js [41b [1;110H(B[m[14d(B[0;7m^G(B[m Help[14;16H(B[0;7m^O(B[m Write Out   (B[0;7m^W(B[m Where Is    (B[0;7m^K(B[m Cut[14;61H(B[0;7m^T(B[m Execute     (B[0;7m^C(B[m Location    (B[0;7mM-U(B[m Undo[15d(B[0;7m^X(B[m Exit[15;16H(B[0;7m^R(B[m Read File   (B[0;7m^\(B[m Replace     (B[0;7m^U(B[m Paste[61G(B[0;7m^J(B[m Justify     (B[0;7m^/(B[m Go To Line  (B[0;7mM-E(B[m Redo[2dconsole.log((B[0;1m[35m'Hello World'[39m(B[m)[?12l[?25h[?25l[13d[J[15d[?12l[?25h[15;1H[?1049l[23;0;0t[?1l>[?2004l[?2004h]0;root@ae0f532bd707: /root@ae0f532bd707:/# [Knano /usr/src/app/index.jsnano[4P[1@c[1@a[1@t
+[?2004lconsole.log('Hello World')
+[?2004h]0;root@ae0f532bd707: /root@ae0f532bd707:/# exit
+[?2004lexit
+[1m[7m%[27m[1m[0m                                                                                                               [0m[27m[24m[J(base) yingyangliang@Yingyangs-MacBook-Air script-answers % [K[?2004heexit[?2004l
+
+Script done on Sat Sep 21 22:39:00 2024

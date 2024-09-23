@@ -1,0 +1,14 @@
+POST http://localhost:3000/todos
+content-type: application/json
+
+{
+  "text": "test 1"
+}
+
+###
+PUT http://localhost:3000/todos/66f08d13715d97bf5ef61828 HTTP/1.1
+content-type: application/json
+
+{
+  "text": "updated text"
+}

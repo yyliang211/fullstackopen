@@ -1,0 +1,9 @@
+Script started on Sat Sep 21 22:24:56 2024
+[1m[7m%[27m[1m[0m                                                                                                               [0m[27m[24m[J(base) yingyangliang@Yingyangs-MacBook-Air script-answers % [K[?2004hddocker container run -it ubuntu bash[?2004l
+[?2004h]0;root@ae0f532bd707: /root@ae0f532bd707:/# mkdir /usr/src/app
+[?2004l[?2004h]0;root@ae0f532bd707: /root@ae0f532bd707:/# touch /usr/src/app/index.js
+[?2004l[?2004h]0;root@ae0f532bd707: /root@ae0f532bd707:/# [Kexit
+[?2004lexit
+[1m[7m%[27m[1m[0m                                                                                                               [0m[27m[24m[J(base) yingyangliang@Yingyangs-MacBook-Air script-answers % [K[?2004heexit[?2004l
+
+Script done on Sat Sep 21 22:26:24 2024
